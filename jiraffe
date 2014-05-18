@@ -1,0 +1,175 @@
+#!/bin/bash
+
+#jiraffe -r mbargas -a mbargas -t bug -s 303 -p STUDIO -pr major "a very silly issue around DM" -
+
+function usage {
+  echo "Usage: jiraffe <operation>"
+  echo
+  echo "Operation"
+  echo "  create [options] <summary>    create a jira issue and return the issue ID"
+  echo "  show   <issue_key>            display issue information"
+  echo "  default                       show current default values"
+  echo "  update [options]              update current default values"
+  echo "  help | -h                     print this beautiful piece of help"
+  echo
+  echo "create operation"
+  echo "example: jiraffe create -c datamapper 'a very silly issue around DM occur'"
+  echo
+  echo "Create Options"
+  echo "  -r  <jira.id>        Reporter"
+  echo "  -a  <jira.id>        Assignee"
+  echo "  -c  <component.id>   Component affected by the issue"
+  echo "  -t  <issue.type>     Jira issue type (Bug,Improvement,Task)"
+  echo "  -s  <sprint.number>  Current sprint number"
+  echo "  -p  <project.id>     Project ID. ex: STUDIO"
+  echo "  -pr <priority.id>    Issue priority (Major|Critical|Blocker)"
+  echo
+  echo "show operation"
+  echo "example: jiraffe show STUDIO-2020"
+  echo
+  echo "update operation"
+  echo "example: jiraffe update -p STUDIO -s 303"
+  echo
+  echo "Update Options"
+  echo "  -t  <issue.type>     Jira issue type (Bug,Improvement,Task)"
+  echo "  -s  <sprint.number>  Current sprint number"
+  echo "  -p  <project.id>     Project ID. ex: STUDIO"
+  echo
+}
+
+function create {
+
+    if [ "-h" == "${1}" ]; then
+        usage
+        exit
+    fi
+
+    while getopts ":r:a:t:s:p:pr:" opt; do
+      case $opt in
+        r)
+            REPORTER=${OPTARG}
+            ;;
+        a)
+            ASSIGNEE=${OPTARG}
+            ;;
+        t)
+            TYPE=${OPTARG}
+            ;;
+        s)
+            SPRINT=${OPTARG}
+            ;;
+        p)
+            PROJECT=${OPTARG}
+            ;;
+        c)
+            COMPONENT=${OPTARG}
+            ;;
+        pr)
+            PRIORITY=${OPTARG}
+            ;;
+      esac
+    done
+
+    shift $((OPTIND-1))
+
+    SUMMARY=$@
+    if [ -z "$SUMMARY" ]; then
+        echo "SUMMARY cannot be empty"
+        exit 1
+    fi
+
+    # createIssue(project, summary, type, sprint, reporter, assignee, priority, component):
+    python -c "import jiraffe; jiraffe.createIssue('${PROJECT}', '${SUMMARY}', '${TYPE}', '${SPRINT}', '${REPORTER}', '${ASSIGNEE}', '${PRIORITY}', '${COMPONENT}')"
+    exit
+}
+
+function update_defaults {
+
+    case $opt in
+      -h)
+          usage
+          exit
+          ;;
+
+      *)
+          echo "$opt Is not supported"
+          exit 1
+          ;;
+    esac
+
+    shift $((OPTIND-1))
+
+    # createIssue(project, summary, type, sprint, reporter, assignee, priority):
+    python -c "import jiraffe; jiraffe.update_defaults('${PROJECT}', '${SPRINT}', '${TYPE}')"
+    exit
+}
+
+function update_defaults {
+
+    if [ "-h" == "${1}" ]; then
+        usage
+        exit
+    fi
+
+    while getopts ":t:s:p:" opt; do
+      case $opt in
+        t)
+            TYPE=${OPTARG}
+            ;;
+        s)
+            SPRINT=${OPTARG}
+            ;;
+        p)
+            PROJECT=${OPTARG}
+            ;;
+        *)
+            echo "$opt Is not supported"
+            exit 1
+            ;;
+      esac
+    done
+
+    shift $((OPTIND-1))
+
+    # createIssue(project, summary, type, sprint, reporter, assignee, priority):
+    python -c "import jiraffe; jiraffe.update_defaults('${PROJECT}', '${SPRINT}', '${TYPE}')"
+    exit
+}
+
+function show_defaults {
+    # show_defaults():
+    python -c "import jiraffe; jiraffe.show_defaults()"
+    exit
+}
+
+OPERATION=$1
+shift
+
+case $OPERATION in
+    create)
+        create $@
+        ;;
+    default)
+         show_defaults $@
+         ;;
+    update)
+         update_defaults $@
+         ;;
+    help)
+        usage
+        exit
+        ;;
+    -h)
+        usage
+        exit
+        ;;
+    --help)
+        usage
+        exit
+        ;;
+    *)
+      usage #default
+      exit
+      ;;
+esac
+exit 1
