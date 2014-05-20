@@ -45,25 +45,32 @@ JIRAFFE_RC=$J_HOME/.jirafferc
 echo "export JIRA_ID=$JIRA_ID" > $JIRAFFE_RC
 echo "export JIRAFFE_HOME=$J_HOME" >> $JIRAFFE_RC
 echo "export PATH=\$JIRAFFE_HOME:\$PATH" >> $JIRAFFE_RC
-echo "export PYTHONPATH=\$PYTHONPATH:\$JIRAFFE_HOME" >> $JIRAFFE_RC
+echo "export PYTHONPATH=\$PYTHONPATH:\$JIRAFFE_HOME/client" >> $JIRAFFE_RC
 
 echo $COLOR"adding reference in : $HOME_RC$END_COLOR "
 echo "source $J_HOME/.jirafferc" >> $HOME_RC
 
-chmod +x $J_HOME/jiraffe
+chmod +x $J_HOME/client/jiraffe
 
-. $HOME_RC > /dev/null
+hash `. $HOME_RC` >/dev/null 2>&1 || {
+      echo "$ERROR_COLOR Please restart your shell$END_COLOR "
+      exit 1
+}
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
   export ZSH="$HOME/.oh-my-zsh"
   echo $COLOR"installing zsh autocompletion plugin"$END_COLOR
   cp -r $J_HOME/zsh_plugin/jiraffe $HOME/.oh-my-zsh/plugins/
   sed -i -e "s/^plugins=(\(.*\))/plugins=\(\1 jiraffe\)/g" ~/.zshrc
-  . ~/.zshrc > /dev/null
+  hash `. ~/.zshrc` >/dev/null 2>&1 || {
+        echo "$ERROR_COLOR Please restart your shell$END_COLOR "
+        exit 1
+  }
 fi
-
-echo $COLOR"done"$END_COLOR
 
 hash jiraffe >/dev/null 2>&1 || {
   echo "$ERROR_COLOR Please restart your shell$END_COLOR "
+  exit 1
 }
+
+echo $COLOR"done"$END_COLOR
