@@ -29,7 +29,7 @@ hash git >/dev/null 2>&1 && /usr/bin/env git clone -q git@github.com:matiasbarga
 if [ -f "$HOME/.profile" ]; then
   HOME_RC=$HOME/.profile
 elif [ -f "$HOME/.zshrc" ]; then
-  HOME_RC=$HOME/.zshrc
+  HOME_RC=$HOME/.zshrc  
 elif [ -f "$HOME/.bashrc" ]; then
   HOME_RC=$HOME/.bashrc
 else
@@ -53,8 +53,7 @@ echo "source $J_HOME/.jirafferc" >> $HOME_RC
 chmod +x $J_HOME/client/jiraffe
 
 hash `. $HOME_RC` >/dev/null 2>&1 || {
-      echo "$ERROR_COLOR Please restart your shell$END_COLOR "
-      exit 1
+      echo $ERROR_COLOR"Please restart your shell"$END_COLOR
 }
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
@@ -62,10 +61,6 @@ if [ -d "$HOME/.oh-my-zsh" ]; then
   echo $COLOR"installing zsh autocompletion plugin"$END_COLOR
   cp -r $J_HOME/zsh_plugin/jiraffe $HOME/.oh-my-zsh/plugins/
   sed -i -e "s/^plugins=(\(.*\))/plugins=\(\1 jiraffe\)/g" ~/.zshrc
-  hash `. ~/.zshrc` >/dev/null 2>&1 || {
-        echo "$ERROR_COLOR Please restart your shell$END_COLOR "
-        exit 1
-  }
 fi
 
 hash jiraffe >/dev/null 2>&1 || {
