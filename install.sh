@@ -44,7 +44,7 @@ JIRAFFE_RC=$J_HOME/.jirafferc
 
 echo "export JIRA_ID=$JIRA_ID" > $JIRAFFE_RC
 echo "export JIRAFFE_HOME=$J_HOME" >> $JIRAFFE_RC
-echo "export PATH=\$JIRAFFE_HOME:\$PATH" >> $JIRAFFE_RC
+echo "export PATH=\$JIRAFFE_HOME/client:\$PATH" >> $JIRAFFE_RC
 echo "export PYTHONPATH=\$PYTHONPATH:\$JIRAFFE_HOME/client" >> $JIRAFFE_RC
 
 echo $COLOR"adding reference in : $HOME_RC$END_COLOR "
