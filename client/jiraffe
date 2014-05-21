@@ -8,6 +8,7 @@ function usage {
   echo "Operation"
   echo "  create [options] <summary>    create a jira issue and return the issue ID"
   echo "  show   <issue_key>            display issue information"
+  echo "  components <project_id>       display components for a given project"
   echo "  default                       show current default values"
   echo "  update [options]              update current default values"
   echo "  help | -h                     print this beautiful piece of help"
@@ -26,6 +27,9 @@ function usage {
   echo
   echo "show operation"
   echo "example: jiraffe show STUDIO-2020"
+  echo
+  echo "show components"
+  echo "example: jiraffe components EE"
   echo
   echo "update operation"
   echo "example: jiraffe update -p STUDIO -s 303"
