@@ -61,7 +61,7 @@ def show_components(project_id):
     query_args = {}
 
     if project != "":
-        query_args['project'] = project
+        query_args['project'] = project_id
 
     encoded_args = urllib.urlencode(query_args)
     response = urllib.urlopen(COMPONENT_SERVICE+ "?" + encoded_args)
