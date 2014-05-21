@@ -147,7 +147,7 @@ function show_components {
 
     PROJECT_ID=${1}
     # show_issue(issue_id):
-    python -c "import jiraffe; jiraffe.show_components('${ISSUE_ID}')"
+    python -c "import jiraffe; jiraffe.show_components('${PROJECT_ID}')"
     exit
 }
 
