@@ -1,11 +1,11 @@
 #!/bin/bash
 
-COLOR="\033[0;33m"
-ERROR_COLOR="\033[0;31m"
-END_COLOR="\033[0m"
+COLOR=""
+ERROR_COLOR=""
+END_COLOR=""
 
 JIRAFFE_HOME="$HOME/.jiraffe"
-if [ -d "$JIRAFFE_HOME" ] then
+if [ -d "$JIRAFFE_HOME" ]; then
   echo $COLOR"removing ~/.jiraffe folder"$END_COLOR
   rm -rf $JIRAFFE_HOME
 fi
@@ -20,12 +20,12 @@ else
   echo $ERROR_COLOR"no valid ._rc file where found to unnistal the reference. Need to configure env vars"$END_COLOR
 fi
 
-if [ -f "$HOME_RC" ]]; then
+if [ -f "$HOME_RC" ]; then
   echo $COLOR"removing jiraffe reference in rc file"$END_COLOR
   sed -i -e "s/^source \(.*\).jirafferc//g" $HOME_RC
 fi
 
-JIRAFFE_PLUGIN = "$HOME/.oh-my-zsh/plugins/jiraffe"
+JIRAFFE_PLUGIN="$HOME/.oh-my-zsh/plugins/jiraffe"
 if [ -d "$JIRAFFE_PLUGIN" ]; then
   echo $COLOR"removing jiraffe zsh plugin"$END_COLOR
   rm -rf $JIRAFFE_PLUGIN
