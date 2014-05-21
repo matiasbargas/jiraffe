@@ -60,7 +60,7 @@ def show_issue(issue_id):
 def show_components(project_id):
     query_args = {}
 
-    if project != "":
+    if project_id != "":
         query_args['project'] = project_id
 
     encoded_args = urllib.urlencode(query_args)
