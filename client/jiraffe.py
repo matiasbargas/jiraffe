@@ -65,7 +65,7 @@ def show_components(project_id):
 
     encoded_args = urllib.urlencode(query_args)
     response = urllib.urlopen(COMPONENT_SERVICE+ "?" + encoded_args)
-
+    print(response.read())
 
 def show_defaults():
     response = urllib.urlopen(DEFAULT_SERVICE)
