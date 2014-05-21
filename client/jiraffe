@@ -127,7 +127,7 @@ function show_issue {
         exit
     fi
 
-    ISSUE_ID = ${1}
+    ISSUE_ID=${1}
     # show_issue(issue_id):
     python -c "import jiraffe; jiraffe.show_issue('${ISSUE_ID}')"
     exit
@@ -145,7 +145,7 @@ function show_components {
         exit
     fi
 
-    PROJECT_ID = ${1}
+    PROJECT_ID=${1}
     # show_issue(issue_id):
     python -c "import jiraffe; jiraffe.show_components('${ISSUE_ID}')"
     exit
