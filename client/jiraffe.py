@@ -4,6 +4,7 @@ import os
 SERVICE_URL = "http://jiraffe.cloudhub.io/api"
 CREATE_SERVICE = SERVICE_URL + "/issues"
 DEFAULT_SERVICE = SERVICE_URL + "/defaults"
+COMPONENT_SERVICE = SERVICE_URL + "/components"
 
 def get_valid_reporter(reporter):
   if reporter == "":
@@ -57,9 +58,14 @@ def show_issue(issue_id):
     print(response.read())
 
 def show_components(project_id):
-    #response = urllib.urlopen(CREATE_SERVICE + "/" + issue_id)
-    #print(response.read())
-    print("not implemented yet")
+    query_args = {}
+
+    if project != "":
+        query_args['project'] = project
+
+    encoded_args = urllib.urlencode(query_args)
+    response = urllib.urlopen(COMPONENT_SERVICE+ "?" + encoded_args)
+
 
 def show_defaults():
     response = urllib.urlopen(DEFAULT_SERVICE)

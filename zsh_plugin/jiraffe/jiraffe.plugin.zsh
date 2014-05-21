@@ -20,13 +20,15 @@ _jiraffe () {
 
     _1st_arguments=(
     'create:Create a jira issue and return the issue ID' \
+    'show:Show information for a given issue id'\
+    'components:Show components for a given project id' \
     'default:Show current default values' \
     'update:Update current default values' \
     'help:Display help' \
     )
      _arguments \
-    '*:: :->subcmds' && return 0 
-     
+    '*:: :->subcmds' && return 0
+
     if (( CURRENT == 1 )); then
         _describe -t commands "jiraffe subcommand" _1st_arguments
         return

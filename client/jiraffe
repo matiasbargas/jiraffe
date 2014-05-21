@@ -85,27 +85,6 @@ function create {
 
 function update_defaults {
 
-    case $opt in
-      -h)
-          usage
-          exit
-          ;;
-
-      *)
-          echo "$opt Is not supported"
-          exit 1
-          ;;
-    esac
-
-    shift $((OPTIND-1))
-
-    # createIssue(project, summary, type, sprint, reporter, assignee, priority):
-    python -c "import jiraffe; jiraffe.update_defaults('${PROJECT}', '${SPRINT}', '${TYPE}')"
-    exit
-}
-
-function update_defaults {
-
     if [ "-h" == "${1}" ]; then
         usage
         exit
@@ -136,11 +115,49 @@ function update_defaults {
     exit
 }
 
+function show_issue {
+
+    if [ -z "${1}" ]; then
+        echo "ISSUE ID IS MANDATORY"
+        exit 1
+    fi
+
+    if [ "-h" == "${1}" ]; then
+        usage
+        exit
+    fi
+
+    ISSUE_ID = ${1}
+    # show_issue(issue_id):
+    python -c "import jiraffe; jiraffe.show_issue('${ISSUE_ID}')"
+    exit
+}
+
+function show_components {
+
+    if [ -z "${1}" ]; then
+        echo "PROJECT ID IS MANDATORY"
+        exit 1
+    fi
+
+    if [ "-h" == "${1}" ]; then
+        usage
+        exit
+    fi
+
+    PROJECT_ID = ${1}
+    # show_issue(issue_id):
+    python -c "import jiraffe; jiraffe.show_components('${ISSUE_ID}')"
+    exit
+}
+
+
 function show_defaults {
     # show_defaults():
     python -c "import jiraffe; jiraffe.show_defaults()"
     exit
 }
+
 
 OPERATION=$1
 shift
@@ -149,6 +166,12 @@ case $OPERATION in
     create)
         create $@
         ;;
+    show)
+         show_issue $@
+         ;;
+    components)
+         show_components $@
+         ;;
     default)
          show_defaults $@
          ;;
