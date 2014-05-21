@@ -1,5 +1,8 @@
 .DS_Store
 
+# Vim temp files
+**/.*.un~
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -53,3 +56,6 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+# Jiraffe
+.jirafferc
